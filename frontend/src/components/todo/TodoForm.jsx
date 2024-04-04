@@ -1,10 +1,14 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addTodo } from "../../features/todo/todoSlice";
 
-const TodoForm = ({ setTodos, fetchData }) => {
+const TodoForm = () => {
   const [newTodo, setNewTodo] = useState({
     body: "",
   });
+
+  const dispatch = useDispatch()
 
   const handleChange = (e) => {
     setNewTodo((pre) => ({
@@ -15,9 +19,8 @@ const TodoForm = ({ setTodos, fetchData }) => {
 
   const postTodo = async () => {
     try {
-      await axios.post("http://127.0.0.1:8000/api/todo/", newTodo);
-        setNewTodo({'body':''})
-      fetchData();
+      dispatch(addTodo(newTodo))
+      setNewTodo({'body':''})
     } catch (error) {
       console.log(error);
     }
